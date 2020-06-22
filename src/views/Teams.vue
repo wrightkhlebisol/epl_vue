@@ -32,7 +32,10 @@ export default {
     getAllTeams() {
       axios
         .get("http://localhost:8000/api/teams")
-        .then((teams) => this.allTeams.push(teams.data))
+        .then((team) => {
+          this.allTeams.push(team.data);
+          console.log(team.data);
+        })
         .catch();
     },
   },
