@@ -1,29 +1,37 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+  <div
+    id="app"
+    class="container mx-auto max-w-md bg-gray-300 h-screen relative"
+  >
+    <header class="bg-gray-900 px-4 py-3 flex items-center justify-between">
+      <div>
+        <img class="h-8" src="#" alt="app logo" />
+      </div>
+
+      <div>
+        <div id="nav" class="text-gray-500 focus:text-white focus:outline-none">
+          <router-link to="/">Teams</router-link> |
+          <router-link to="/fixtures">Fixtures</router-link>
+        </div>
+      </div>
+    </header>
     <router-view />
   </div>
 </template>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
 }
 
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+  display: inline;
 }
 
 #nav a.router-link-exact-active {
