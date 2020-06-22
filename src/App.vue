@@ -5,7 +5,7 @@
   >
     <header class="bg-gray-900 px-4 py-3 flex items-center justify-between">
       <div>
-        <img class="h-8" src="#" alt="app logo" />
+        <img class="h-8" src="https://placeimg.com/30/30/tech" alt="app logo" />
       </div>
 
       <div>
