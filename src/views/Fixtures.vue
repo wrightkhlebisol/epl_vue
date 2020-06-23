@@ -23,40 +23,28 @@
       </div>
       <div class="font-bold">
         <span @click="updateFixture(fixture.id)">Update</span> |
-        <span @click="deleteFixture(fixture.away_team, fixture.id)"
-          >Delete</span
-        >
+        <span @click="deleteFixture(fixture.away_team, fixture.id)">Delete</span>
       </div>
     </div>
 
     <div
       @click="showModal"
       class="sticky float-right z-auto bg-teal-500 font-extrabold text-white inline bottom-0 p-6 rounded-full h-16 w-16 m-5 cursor-pointer"
-    >
-      +
-    </div>
+    >+</div>
     <div
       class="h-screen absolute w-full top-0 left-0 bg-gray-500 bg-opacity-50"
       v-show="createFixtureModalState"
     >
       <div class="w-full max-w-xs m-auto">
-        <form
-          class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10"
-          @submit="createFixture"
-        >
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10" @submit="createFixture">
+          <p class="text-red-600">{{requestStatus}}</p>
           <span
-            class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer            h-8 w-8"
+            class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
             @click="createFixtureModalToggle"
-            >x</span
-          >
+          >x</span>
           <h1 class="font-bold text-2xl mb-10">Create New Fixture</h1>
           <div class="mb-4">
-            <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="hometeam"
-            >
-              Home Team
-            </label>
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="hometeam">Home Team</label>
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="hometeam"
@@ -67,12 +55,7 @@
           </div>
 
           <div class="mb-4">
-            <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="awayteam"
-            >
-              Away Team
-            </label>
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="awayteam">Away Team</label>
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="awayteam"
@@ -87,9 +70,7 @@
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
               @click="createFixture"
-            >
-              Create Fixture
-            </button>
+            >Create Fixture</button>
           </div>
         </form>
       </div>
@@ -108,6 +89,9 @@ export default {
       createFixtureModalState: false,
       home_team: "",
       away_team: "",
+      //   url: "http://localhost:8000/api",
+      url: "https://eplapi.herokuapp.com/api",
+      requestStatus: ""
     };
   },
   methods: {
@@ -119,12 +103,12 @@ export default {
     },
     getAllFixtures() {
       axios
-        .get("http://localhost:8000/api/", {
+        .get(`${this.url}`, {
           headers: {
-            Authorization: this.bearer,
-          },
+            Authorization: this.bearer
+          }
         })
-        .then((fixture) => {
+        .then(fixture => {
           this.allFixtures = fixture.data;
         })
         .catch();
@@ -143,13 +127,13 @@ export default {
     },
     updateFixture(id) {
       axios
-        .put(`http://localhost:8000/api/fixtures/${id}`, {
+        .put(`${this.url}/fixtures/${id}`, {
           away_team: this.away_team,
           headers: {
-            Authorization: this.bearer,
-          },
+            Authorization: this.bearer
+          }
         })
-        .then((response) => {
+        .then(response => {
           this.getAllFixtures();
           console.log(response);
         })
@@ -158,21 +142,21 @@ export default {
     deleteFixture(fixtureName, id) {
       if (confirm(`Are you sure you want to delete ${fixtureName}`)) {
         axios
-          .delete(`http://localhost:8000/api/fixtures/${id}`, {
+          .delete(`${this.url}/fixtures/${id}`, {
             headers: {
-              Authorization: this.bearer,
-            },
+              Authorization: this.bearer
+            }
           })
-          .then((response) => {
+          .then(response => {
             this.getAllFixtures();
             console.log(response);
           })
           .catch();
       }
-    },
+    }
   },
   mounted() {
     this.getAllFixtures();
-  },
+  }
 };
 </script>
