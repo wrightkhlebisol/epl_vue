@@ -122,8 +122,9 @@ export default {
           this.loginModalToggle();
           let bearer = `Bearer ${res.data.token}`;
           localStorage.setItem("bearer", bearer);
-        });
-      alert(`${this.email} and ${this.password}`);
+          this.$router.push("/");
+        })
+        .catch(e => console.log(e));
     }
   }
 };

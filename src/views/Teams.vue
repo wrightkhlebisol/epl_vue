@@ -71,8 +71,8 @@ export default {
       team_name: "",
       bearer: localStorage.getItem("bearer"),
       createTeamModalState: false,
-    //   url: "http://localhost:8000/api",
-        url: "https://eplapi.herokuapp.com/api",
+      //   url: "http://localhost:8000/api",
+      url: "https://eplapi.herokuapp.com/api",
       requestStatus: ""
     };
   },
@@ -99,10 +99,9 @@ export default {
           this.team_name = "";
           this.createTeamModalToggle();
           this.getAllTeams();
-          console.log(response);
+          console.log(response.message);
         })
         .catch(e => {
-          this.requestStatus = "Unauthorised";
           console.log(e.message);
         });
     },
