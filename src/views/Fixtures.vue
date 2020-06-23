@@ -89,8 +89,8 @@ export default {
       createFixtureModalState: false,
       home_team: "",
       away_team: "",
-      url: "http://localhost:8000/api",
-      //   url: "https://eplapi.herokuapp.com/api",
+      //   url: "http://localhost:8000/api",
+      url: "https://eplapi.herokuapp.com/api",
       requestStatus: ""
     };
   },

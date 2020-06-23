@@ -98,8 +98,8 @@ export default {
       loginModalState: false,
       email: "",
       password: "",
-      url: "http://localhost:8000/api",
-      //   url: "https://eplapi.herokuapp.com/api",
+      //   url: "http://localhost:8000/api",
+      url: "https://eplapi.herokuapp.com/api",
       requestStatus: ""
     };
   },

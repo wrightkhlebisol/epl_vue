@@ -71,8 +71,8 @@ export default {
       team_name: "",
       bearer: localStorage.getItem("bearer"),
       createTeamModalState: false,
-      url: "http://localhost:8000/api",
-      //   url: "https://eplapi.herokuapp.com/api",
+    //   url: "http://localhost:8000/api",
+        url: "https://eplapi.herokuapp.com/api",
       requestStatus: ""
     };
   },
