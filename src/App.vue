@@ -9,16 +9,16 @@
         <div id="nav" class="text-gray-500 focus:text-white focus:outline-none">
           <router-link to="/">Teams</router-link>|
           <router-link to="/fixtures">Fixtures</router-link>|
-          <span @click="showModal" v-if="!loggedIn" class="auth cursor-pointer">Login</span>
+          <span @click="showModal" v-if="loggedIn" class="auth cursor-pointer">Login</span>
           <span @click="showRegModal" v-else class="auth cursor-pointer">Register</span>
         </div>
       </div>
     </header>
-    <router-view v-if="!loggedIn" />
+    <router-view v-if="loggedIn" />
     <h1
       v-else
       class="font-extrabold inline shadow-md text-white w-full text-center align-self-center"
-    >Log in or Register to begin</h1>
+    >Register to begin</h1>
     <!-- LOGIN MODAL SECTION -->
     <div
       class="h-screen bg-opacity-50 absolute w-full top-0 left-0 bg-gray-500"
@@ -217,6 +217,7 @@ export default {
         })
         .then(res => {
           this.requestStatus = res.data.message;
+          this.loggedIn = true;
           this.regModalToggle();
           this.loginModalToggle();
         })
@@ -225,7 +226,7 @@ export default {
   },
   mounted() {
     if (localStorage.getItem("bearer") !== null) {
-      //   this.loggedIn = true;
+      this.loggedIn = true;
     }
   }
 };
@@ -236,6 +237,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  min-width: 320px;
 }
 
 .auth {
