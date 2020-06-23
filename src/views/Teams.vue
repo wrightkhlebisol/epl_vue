@@ -71,8 +71,8 @@ export default {
       team_name: "",
       bearer: localStorage.getItem("bearer"),
       createTeamModalState: false,
-      //   url: "http://localhost:8000/api",
-      url: "https://eplapi.herokuapp.com/api",
+      url: "http://localhost:8000/api",
+      //   url: "https://eplapi.herokuapp.com/api",
       requestStatus: ""
     };
   },
@@ -84,16 +84,21 @@ export default {
       this.createTeamModalToggle();
     },
     createTeam() {
+      axios.post();
       axios
-        .post(`${this.url}/teams`, {
-          team_name: this.team_name,
-          headers: {
-            Authorization: this.bearer
+        .post(
+          `${this.url}/teams`,
+          { team_name: this.team_name },
+          {
+            headers: {
+              Authorization: this.bearer
+            }
           }
-        })
+        )
         .then(response => {
-          (this.team_name = ""), this.createTeamModalToggle();
-
+          this.team_name = "";
+          this.createTeamModalToggle();
+          this.getAllTeams();
           console.log(response);
         })
         .catch(e => {
@@ -117,12 +122,15 @@ export default {
     },
     updateTeam(id) {
       axios
-        .put(`${this.url}/teams/${id}`, {
-          team_name: this.team_name,
-          headers: {
-            Authorization: this.bearer
+        .put(
+          `${this.url}/teams/${id}`,
+          { team_name: this.team_name },
+          {
+            headers: {
+              Authorization: this.bearer
+            }
           }
-        })
+        )
         .then(response => {
           this.getAllTeams();
           console.log(response);

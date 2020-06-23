@@ -89,8 +89,8 @@ export default {
       createFixtureModalState: false,
       home_team: "",
       away_team: "",
-      //   url: "http://localhost:8000/api",
-      url: "https://eplapi.herokuapp.com/api",
+      url: "http://localhost:8000/api",
+      //   url: "https://eplapi.herokuapp.com/api",
       requestStatus: ""
     };
   },
@@ -116,8 +116,8 @@ export default {
     createFixture() {
       alert("Creating fixture");
       //   axios
-      //     .post(`http://localhost:8000/api/fixtures/`, {
-      //       away_team: this.away_team,
+      //     .post(`http://localhost:8000/api/fixtures/`,
+      //   { team_name: this.team_name }, {
       //       headers: {
       //         Authorization: this.bearer,
       //       },

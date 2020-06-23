@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container mx-auto max-w-md bg-gray-300 h-screen relative">
-    <header class="bg-gray-900 px-4 py-3 flex items-center justify-between">
+    <header class="bg-gray-900 px-4 py-3 flex items-center shadow-lg shadow justify-between">
       <div>
         <img class="h-8" src="https://placeimg.com/30/30/tech" alt="app logo" />
       </div>
@@ -98,13 +98,15 @@ export default {
       loginModalState: false,
       email: "",
       password: "",
-      //   url: "http://localhost:8000/api",
-      url: "https://eplapi.herokuapp.com/api",
+      url: "http://localhost:8000/api",
+      //   url: "https://eplapi.herokuapp.com/api",
       requestStatus: ""
     };
   },
   methods: {
     loginModalToggle() {
+      this.email = "";
+      this.password = "";
       this.loginModalState = !this.loginModalState;
     },
     showModal() {
@@ -117,6 +119,7 @@ export default {
           password: this.password
         })
         .then(res => {
+          this.loginModalToggle();
           let bearer = `Bearer ${res.data.token}`;
           localStorage.setItem("bearer", bearer);
         });
