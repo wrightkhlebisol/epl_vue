@@ -3,7 +3,7 @@
     <h2 class="text-2xl py-4 font-bold">All Fixtures</h2>
     <div
       v-for="fixture in allFixtures"
-      :key="fixture.away_team_id"
+      :key="fixture.id"
       class="flex bg-white justify-between align-items-center p-2 my-3 rounded-md shadow-lg"
     >
       <div>
