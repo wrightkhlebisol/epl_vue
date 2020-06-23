@@ -23,15 +23,76 @@
       </div>
       <div class="font-bold">
         <span @click="updateFixture(fixture.id)">Update</span> |
-        <span @click="deleteFixture(fixture.team_name, fixture.id)"
+        <span @click="deleteFixture(fixture.away_team, fixture.id)"
           >Delete</span
         >
       </div>
     </div>
+
     <div
-      class="sticky float-right z-auto bg-teal-500 font-extrabold text-white inline bottom-0 p-6 rounded-full h-16 w-16 m-5"
+      @click="showModal"
+      class="sticky float-right z-auto bg-teal-500 font-extrabold text-white inline bottom-0 p-6 rounded-full h-16 w-16 m-5 cursor-pointer"
     >
-      New
+      +
+    </div>
+    <div
+      class="h-screen absolute w-full top-0 left-0 bg-gray-500 bg-opacity-50"
+      v-show="createFixtureModalState"
+    >
+      <div class="w-full max-w-xs m-auto">
+        <form
+          class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10"
+          @submit="createFixture"
+        >
+          <span
+            class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer            h-8 w-8"
+            @click="createFixtureModalToggle"
+            >x</span
+          >
+          <h1 class="font-bold text-2xl mb-10">Create New Fixture</h1>
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="hometeam"
+            >
+              Home Team
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="hometeam"
+              v-model="home_team"
+              type="text"
+              placeholder="Pick A Team (Home)"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="awayteam"
+            >
+              Away Team
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="awayteam"
+              v-model="away_team"
+              type="text"
+              placeholder="Pick A Team (Away)"
+            />
+          </div>
+
+          <div class="flex items-center justify-between">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="button"
+              @click="createFixture"
+            >
+              Create Fixture
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -43,11 +104,19 @@ export default {
   data() {
     return {
       allFixtures: [],
-      bearer:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MjgzNDc3OSwiZXhwIjoxNTkyODM4Mzc5LCJuYmYiOjE1OTI4MzQ3NzksImp0aSI6IkZ4c0luelk0UHhTUDF5bE8iLCJzdWIiOjEsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.BM6IMJ_JCw6GA3ojfevh1R-yv4QNpt_D07iiY0TvL0s",
+      bearer: localStorage.getItem("bearer"),
+      createFixtureModalState: false,
+      home_team: "",
+      away_team: "",
     };
   },
   methods: {
+    createFixtureModalToggle() {
+      this.createFixtureModalState = !this.createFixtureModalState;
+    },
+    showModal() {
+      this.createFixtureModalToggle();
+    },
     getAllFixtures() {
       axios
         .get("http://localhost:8000/api/", {
@@ -61,20 +130,21 @@ export default {
         .catch();
     },
     createFixture() {
-      axios
-        .post(`http://localhost:8000/api/fixtures/`, {
-          team_name: this.team_name,
-          headers: {
-            Authorization: this.bearer,
-          },
-        })
-        .then((response) => console.log(response))
-        .catch();
+      alert("Creating fixture");
+      //   axios
+      //     .post(`http://localhost:8000/api/fixtures/`, {
+      //       away_team: this.away_team,
+      //       headers: {
+      //         Authorization: this.bearer,
+      //       },
+      //     })
+      //     .then((response) => console.log(response))
+      //     .catch();
     },
     updateFixture(id) {
       axios
         .put(`http://localhost:8000/api/fixtures/${id}`, {
-          team_name: this.team_name,
+          away_team: this.away_team,
           headers: {
             Authorization: this.bearer,
           },
