@@ -18,7 +18,7 @@
         </div>-->
       </div>
       <div class="font-bold">
-        <span @click="updateTeam(team.id)">🖋</span> |
+        <span @click="showUpdateModal(team.id)">🖋</span> |
         <span @click="deleteTeam(team.team_name, team.id)">🚮</span>
       </div>
     </div>
@@ -70,11 +70,14 @@
       v-show="updateTeamModalState"
     >
       <div class="w-full max-w-xs m-auto">
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10" @submit="updateTeam">
+        <form
+          class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10"
+          @submit="updateTeam(team_id)"
+        >
           <p class="text-red-600">{{requestStatus}}</p>
           <span
             class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
-            @click="createTeamModalToggle"
+            @click="updateTeamModalToggle"
           >x</span>
           <h1 class="font-bold text-2xl mb-10">Update Team {{ team_name }}</h1>
           <div class="mb-4">
@@ -85,7 +88,7 @@
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="update_teamname"
-              v-model="team_name"
+              v-model="team_id"
               type="text"
               placeholder="Enter team name"
             />
@@ -95,7 +98,7 @@
             <button
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
-              @click="doTeamUpdate"
+              @click="updateTeam(team_id)"
             >Update</button>
           </div>
         </form>
@@ -114,6 +117,7 @@ export default {
     return {
       allTeams: [],
       team_name: "",
+      team_id: 0,
       bearer: localStorage.getItem("bearer"),
       createTeamModalState: false,
       updateTeamModalState: false,
@@ -129,7 +133,28 @@ export default {
     showModal() {
       this.createTeamModalToggle();
     },
-    doTeamUpdate() {},
+    updateTeamModalToggle() {
+      this.updateTeamModalState = !this.updateTeamModalState;
+    },
+    showUpdateModal(teamId) {
+      this.team_id = teamId;
+      this.getTeamById(teamId);
+      this.updateTeamModalToggle();
+    },
+    getTeamById(id) {
+      axios
+        .get(`${this.url}/teams/${id}`, {
+          headers: {
+            Authorization: this.bearer
+          }
+        })
+        .then(team => {
+          this.team_name = team.data.team_name;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
     createTeam() {
       axios
         .post(

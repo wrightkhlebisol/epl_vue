@@ -46,24 +46,27 @@
           <h1 class="font-bold text-2xl mb-10">Create New Fixture</h1>
           <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="hometeam">Home Team</label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+
+            <select
               id="hometeam"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               v-model="home_team"
-              type="text"
-              placeholder="Pick A Team (Home)"
-            />
+            >
+              <option disabled value>Pick A Team</option>
+              <option v-for="team in allTeams" :key="team.id" :value="team.id">{{ team.team_name }}</option>
+            </select>
           </div>
 
           <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="awayteam">Away Team</label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            <select
               id="awayteam"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               v-model="away_team"
-              type="text"
-              placeholder="Pick A Team (Away)"
-            />
+            >
+              <option disabled value>Pick A Team</option>
+              <option v-for="team in allTeams" :key="team.id" :value="team.id">{{ team.team_name }}</option>
+            </select>
           </div>
 
           <div class="flex items-center justify-between">
@@ -90,6 +93,7 @@ export default {
       createFixtureModalState: false,
       home_team: "",
       away_team: "",
+      allTeams: [],
       //   url: "http://localhost:8000/api",
       url: "https://eplapi.herokuapp.com/api",
       requestStatus: ""
@@ -100,7 +104,22 @@ export default {
       this.createFixtureModalState = !this.createFixtureModalState;
     },
     showModal() {
+      this.getAllTeams();
       this.createFixtureModalToggle();
+    },
+    getAllTeams() {
+      axios
+        .get(`${this.url}/teams`, {
+          headers: {
+            Authorization: this.bearer
+          }
+        })
+        .then(team => {
+          this.allTeams = team.data;
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
     getAllFixtures() {
       axios
@@ -115,29 +134,45 @@ export default {
         .catch();
     },
     createFixture() {
-      alert("Creating fixture");
+      alert(`Creating fixture, ${this.home_team}, ${this.away_team}`);
       // this.requestStatus = response.data.message;
-      //   axios
-      //     .post(`http://localhost:8000/api/fixtures/`,
-      //   { home_team_id: this.home_team_id,
-      //   away_team_id: this.away_team_id
-      //  }
-      //  , {
-      //       headers: {
-      //         Authorization: this.bearer,
-      //       },
-      //     })
-      //     .then((response) => console.log(response))
-      //     .catch();
+      axios
+        .post(
+          `${this.url}/fixtures`,
+          {
+            home_team_id: this.home_team,
+            away_team_id: this.away_team
+          },
+          {
+            headers: {
+              Authorization: this.bearer
+            }
+          }
+        )
+        .then(response => {
+          console.log(response);
+          this.home_team = "";
+          this.away_team = "";
+          this.createFixtureModalToggle();
+          this.getAllFixtures();
+          this.requestStatus = response.data.message;
+        })
+        .catch();
     },
     updateFixture(id) {
       axios
-        .put(`${this.url}/fixtures/${id}`, {
-          away_team: this.away_team,
-          headers: {
-            Authorization: this.bearer
+        .put(
+          `${this.url}/fixtures/${id}`,
+          {
+            home_team_id: this.home_team,
+            away_team_id: this.away_team
+          },
+          {
+            headers: {
+              Authorization: this.bearer
+            }
           }
-        })
+        )
         .then(response => {
           this.getAllFixtures();
           console.log(response);
