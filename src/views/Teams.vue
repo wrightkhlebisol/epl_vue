@@ -8,14 +8,14 @@
       class="flex bg-white align-center justify-between p-2 my-3 rounded-md shadow-lg"
     >
       <div class="font-bold align-self-center m-2 rounded-full">
-        <img src="https://i.pravatar.cc/50?u=" class="rounded-full" :alt="team.team_name" />
+        <!-- <img src="https://i.pravatar.cc/50?u=" class="rounded-full" :alt="team.team_name" /> -->
       </div>
       <div>
         <div class="font-bold">{{ team.team_name }}</div>
-        <div>
+        <!-- <div>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit, ea
           corrupti.
-        </div>
+        </div>-->
       </div>
       <div class="font-bold">
         <span @click="updateTeam(team.id)">🖋</span> |
@@ -26,6 +26,8 @@
       @click="showModal"
       class="sticky float-right z-auto bg-teal-500 font-extrabold text-white inline bottom-0 p-6 rounded-full h-16 w-16 m-5 cursor-pointer shadow-lg"
     >+</div>
+
+    <!-- CREATE TEAMS MODAL -->
     <div
       class="h-screen absolute w-full top-0 left-0 bg-gray-500 bg-opacity-50"
       v-show="createTeamModalState"
@@ -59,6 +61,48 @@
         </form>
       </div>
     </div>
+
+    <!-- CREATE TEAMS MODAL END -->
+
+    <!-- UPDATE TEAMS MODAL -->
+    <div
+      class="h-screen absolute w-full top-0 left-0 bg-gray-500 bg-opacity-50"
+      v-show="updateTeamModalState"
+    >
+      <div class="w-full max-w-xs m-auto">
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10" @submit="updateTeam">
+          <p class="text-red-600">{{requestStatus}}</p>
+          <span
+            class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
+            @click="createTeamModalToggle"
+          >x</span>
+          <h1 class="font-bold text-2xl mb-10">Update Team {{ team_name }}</h1>
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="update_teamname"
+            >Team Name</label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="update_teamname"
+              v-model="team_name"
+              type="text"
+              placeholder="Enter team name"
+            />
+          </div>
+
+          <div class="flex items-center justify-between">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="button"
+              @click="doTeamUpdate"
+            >Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- UPDATE TEAMS MODAL END -->
   </div>
 </template>
 
@@ -72,6 +116,7 @@ export default {
       team_name: "",
       bearer: localStorage.getItem("bearer"),
       createTeamModalState: false,
+      updateTeamModalState: false,
       //   url: "http://localhost:8000/api",
       url: "https://eplapi.herokuapp.com/api",
       requestStatus: ""
@@ -84,6 +129,7 @@ export default {
     showModal() {
       this.createTeamModalToggle();
     },
+    doTeamUpdate() {},
     createTeam() {
       axios
         .post(

@@ -8,18 +8,18 @@
       class="flex bg-white justify-between align-items-center p-2 my-3 rounded-md shadow-lg"
     >
       <div>
-        <div class="font-bold flex inline justify-between">
-          <img
+        <div class="font-bold flex inline justify-around">
+          <!-- <img
             src="https://placeimg.com/50/50/any"
             class="rounded-full w-1/3"
             alt="Home club image"
-          />
+          />-->
           Team {{ fixture.away_team_id }} vs Team {{ fixture.home_team_id }}
-          <img
+          <!-- <img
             src="https://placeimg.com/50/50/any"
             class="rounded-full w-1/3"
             alt="Away club image"
-          />
+          />-->
         </div>
       </div>
       <div class="font-bold">
