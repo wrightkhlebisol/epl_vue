@@ -1,5 +1,6 @@
 <template>
   <div class="max-w-md px-3 py-8">
+    <p class="text-red-600">{{requestStatus}}</p>
     <h2 class="text-2xl py-4 font-bold">All Teams</h2>
     <div
       v-for="team in allTeams"
@@ -84,7 +85,6 @@ export default {
       this.createTeamModalToggle();
     },
     createTeam() {
-      axios.post();
       axios
         .post(
           `${this.url}/teams`,
@@ -99,7 +99,8 @@ export default {
           this.team_name = "";
           this.createTeamModalToggle();
           this.getAllTeams();
-          console.log(response.message);
+          this.requestStatus = response.data.message;
+          console.log(response);
         })
         .catch(e => {
           console.log(e.message);
@@ -148,6 +149,7 @@ export default {
           })
           .then(response => {
             this.getAllTeams();
+            this.requestStatus = response.data.message;
             console.log(response);
           })
           .catch(e => {
