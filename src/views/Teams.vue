@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-md px-3 py-8">
-    <p class="text-red-600">{{requestStatus}}</p>
+    <p class="text-green-600">{{requestSuccess}}</p>
     <h2 class="text-2xl py-4 font-bold">All Teams</h2>
     <div
       v-for="team in allTeams"
@@ -34,7 +34,7 @@
     >
       <div class="w-full max-w-xs m-auto">
         <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10" @submit="createTeam">
-          <p class="text-red-600">{{requestStatus}}</p>
+          <p class="text-green-600">{{requestSuccess}}</p>
           <span
             class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
             @click="createTeamModalToggle"
@@ -74,7 +74,7 @@
           class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10"
           @submit="updateTeam(team_id)"
         >
-          <p class="text-red-600">{{requestStatus}}</p>
+          <p class="text-green-600">{{requestSuccess}}</p>
           <span
             class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
             @click="updateTeamModalToggle"
@@ -123,7 +123,8 @@ export default {
       updateTeamModalState: false,
       //   url: "http://localhost:8000/api",
       url: "https://eplapi.herokuapp.com/api",
-      requestStatus: ""
+      requestSuccess: "",
+      requestFailed: ""
     };
   },
   methods: {
@@ -170,7 +171,7 @@ export default {
           this.team_name = "";
           this.createTeamModalToggle();
           this.getAllTeams();
-          this.requestStatus = response.data.message;
+          this.requestSuccess = response.data.message;
           console.log(response);
         })
         .catch(e => {
@@ -220,7 +221,7 @@ export default {
           })
           .then(response => {
             this.getAllTeams();
-            this.requestStatus = response.data.message;
+            this.requestSuccess = response.data.message;
             console.log(response);
           })
           .catch(e => {

@@ -26,7 +26,7 @@
     >
       <div class="w-full max-w-xs m-auto">
         <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10" @submit="login">
-          <p class="text-red-600">{{ requestStatus }}</p>
+          <p class="text-green-600">{{requestSuccess}}</p>
           <span
             class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
             @click="loginModalToggle"
@@ -78,7 +78,7 @@
     >
       <div class="w-full max-w-xs m-auto">
         <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10" @submit="login">
-          <p class="text-red-600">{{ requestStatus }}</p>
+          <p class="text-green-600">{{requestSuccess}}</p>
           <span
             class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
             @click="regModalToggle"
@@ -169,7 +169,7 @@ export default {
       password_confirmation: "",
       //   url: "http://localhost:8000/api",
       url: "https://eplapi.herokuapp.com/api",
-      requestStatus: ""
+      requestSuccess: ""
     };
   },
   methods: {
@@ -210,7 +210,7 @@ export default {
           password: this.password
         })
         .then(res => {
-          this.requestStatus = res.data.message;
+          this.requestSuccess = res.data.message;
           this.loginModalToggle();
           let bearer = `Bearer ${res.data.token}`;
           localStorage.setItem("bearer", bearer);
@@ -228,7 +228,7 @@ export default {
           password_confirmation: this.password_confirmation
         })
         .then(res => {
-          this.requestStatus = res.data.message;
+          this.requestSuccess = res.data.message;
           this.loggedIn = true;
           this.regModalToggle();
           this.loginModalToggle();

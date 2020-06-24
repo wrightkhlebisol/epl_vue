@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-md px-3 py-8">
-    <p class="text-red-600">{{requestStatus}}</p>
+    <p class="text-green-600">{{requestSuccess}}</p>
     <h2 class="text-2xl py-4 font-bold">All Fixtures</h2>
     <div
       v-for="fixture in allFixtures"
@@ -38,7 +38,8 @@
     >
       <div class="w-full max-w-xs m-auto">
         <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10" @submit="createFixture">
-          <p class="text-red-600">{{requestStatus}}</p>
+          <p class="text-red-600">{{requestFailed}}</p>
+          <p class="text-green-600">{{requestSuccess}}</p>
           <span
             class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
             @click="createFixtureModalToggle"
@@ -96,7 +97,8 @@ export default {
       allTeams: [],
       //   url: "http://localhost:8000/api",
       url: "https://eplapi.herokuapp.com/api",
-      requestStatus: ""
+      requestSuccess: "",
+      requestFailed: ""
     };
   },
   methods: {
@@ -134,8 +136,7 @@ export default {
         .catch();
     },
     createFixture() {
-      alert(`Creating fixture, ${this.home_team}, ${this.away_team}`);
-      // this.requestStatus = response.data.message;
+      // this.requestSuccess = response.data.message;
       axios
         .post(
           `${this.url}/fixtures`,
@@ -155,7 +156,7 @@ export default {
           this.away_team = "";
           this.createFixtureModalToggle();
           this.getAllFixtures();
-          this.requestStatus = response.data.message;
+          this.requestSuccess = response.data.message;
         })
         .catch();
     },
@@ -189,7 +190,7 @@ export default {
           })
           .then(response => {
             this.getAllFixtures();
-            this.requestStatus = response.data.message;
+            this.requestSuccess = response.data.message;
             console.log(response);
           })
           .catch();
