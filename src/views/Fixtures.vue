@@ -1,5 +1,6 @@
 <template>
   <div class="max-w-md px-3 py-8">
+    <p class="text-red-600">{{requestStatus}}</p>
     <h2 class="text-2xl py-4 font-bold">All Fixtures</h2>
     <div
       v-for="fixture in allFixtures"
@@ -22,8 +23,8 @@
         </div>
       </div>
       <div class="font-bold">
-        <span @click="updateFixture(fixture.id)">Update</span> |
-        <span @click="deleteFixture(fixture.away_team, fixture.id)">Delete</span>
+        <span @click="updateFixture(fixture.id)">🖋</span> |
+        <span @click="deleteFixture(fixture.away_team, fixture.id)">🚮</span>
       </div>
     </div>
 
@@ -115,9 +116,13 @@ export default {
     },
     createFixture() {
       alert("Creating fixture");
+      // this.requestStatus = response.data.message;
       //   axios
       //     .post(`http://localhost:8000/api/fixtures/`,
-      //   { team_name: this.team_name }, {
+      //   { home_team_id: this.home_team_id,
+      //   away_team_id: this.away_team_id
+      //  }
+      //  , {
       //       headers: {
       //         Authorization: this.bearer,
       //       },
@@ -140,7 +145,7 @@ export default {
         .catch();
     },
     deleteFixture(fixtureName, id) {
-      if (confirm(`Are you sure you want to delete ${fixtureName}`)) {
+      if (confirm(`Are you sure you want to delete fixture ${id}`)) {
         axios
           .delete(`${this.url}/fixtures/${id}`, {
             headers: {
@@ -149,6 +154,7 @@ export default {
           })
           .then(response => {
             this.getAllFixtures();
+            this.requestStatus = response.data.message;
             console.log(response);
           })
           .catch();

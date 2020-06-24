@@ -18,8 +18,8 @@
         </div>
       </div>
       <div class="font-bold">
-        <span @click="updateTeam(team.id)">Update</span> |
-        <span @click="deleteTeam(team.team_name, team.id)">Delete</span>
+        <span @click="updateTeam(team.id)">🖋</span> |
+        <span @click="deleteTeam(team.team_name, team.id)">🚮</span>
       </div>
     </div>
     <div
