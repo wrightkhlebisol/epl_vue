@@ -1,5 +1,6 @@
 <template>
   <div class="max-w-md px-3 py-8">
+    <p class="text-red-600">{{requestFailure}}</p>
     <p class="text-green-600">{{requestSuccess}}</p>
     <h2 class="text-2xl py-4 font-bold">All Fixtures</h2>
     <div
@@ -38,7 +39,7 @@
     >
       <div class="w-full max-w-xs m-auto">
         <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10" @submit="createFixture">
-          <p class="text-red-600">{{requestFailed}}</p>
+          <p class="text-red-600">{{requestFailure}}</p>
           <p class="text-green-600">{{requestSuccess}}</p>
           <span
             class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
@@ -98,7 +99,7 @@ export default {
       //   url: "http://localhost:8000/api",
       url: "https://eplapi.herokuapp.com/api",
       requestSuccess: "",
-      requestFailed: ""
+      requestFailure: ""
     };
   },
   methods: {
@@ -133,7 +134,10 @@ export default {
         .then(fixture => {
           this.allFixtures = fixture.data;
         })
-        .catch();
+        .catch(e => {
+          console.log(e.response);
+          this.requestFailure = e.response.statusText;
+        });
     },
     createFixture() {
       // this.requestSuccess = response.data.message;
@@ -157,8 +161,12 @@ export default {
           this.createFixtureModalToggle();
           this.getAllFixtures();
           this.requestSuccess = response.data.message;
+          console.log(response);
         })
-        .catch();
+        .catch(e => {
+          console.log(e.response);
+          this.requestFailure = e.response.statusText;
+        });
     },
     updateFixture(id) {
       axios
@@ -178,7 +186,10 @@ export default {
           this.getAllFixtures();
           console.log(response);
         })
-        .catch();
+        .catch(e => {
+          console.log(e.response);
+          this.requestFailure = e.response.statusText;
+        });
     },
     deleteFixture(fixtureName, id) {
       if (confirm(`Are you sure you want to delete fixture ${id}`)) {
@@ -193,7 +204,10 @@ export default {
             this.requestSuccess = response.data.message;
             console.log(response);
           })
-          .catch();
+          .catch(e => {
+            console.log(e.response);
+            this.requestFailure = e.response.statusText;
+          });
       }
     }
   },

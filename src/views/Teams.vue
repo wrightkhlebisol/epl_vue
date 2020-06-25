@@ -1,5 +1,6 @@
 <template>
   <div class="max-w-md px-3 py-8">
+    <p class="text-red-600">{{requestFailure}}</p>
     <p class="text-green-600">{{requestSuccess}}</p>
     <h2 class="text-2xl py-4 font-bold">All Teams</h2>
     <div
@@ -124,7 +125,7 @@ export default {
       //   url: "http://localhost:8000/api",
       url: "https://eplapi.herokuapp.com/api",
       requestSuccess: "",
-      requestFailed: ""
+      requestFailure: ""
     };
   },
   methods: {
@@ -153,7 +154,8 @@ export default {
           this.team_name = team.data.team_name;
         })
         .catch(e => {
-          console.log(e);
+          console.log(e.response);
+          this.requestFailure = e.response.statusText;
         });
     },
     createTeam() {
@@ -175,7 +177,8 @@ export default {
           console.log(response);
         })
         .catch(e => {
-          console.log(e.message);
+          console.log(e.response);
+          this.requestFailure = e.response.statusText;
         });
     },
     getAllTeams() {
@@ -189,7 +192,8 @@ export default {
           this.allTeams = team.data;
         })
         .catch(e => {
-          console.log(e);
+          console.log(e.response);
+          this.requestFailure = e.response.statusText;
         });
     },
     updateTeam(id) {
@@ -208,7 +212,8 @@ export default {
           console.log(response);
         })
         .catch(e => {
-          console.log(e.message);
+          console.log(e.response);
+          this.requestFailure = e.response.statusText;
         });
     },
     deleteTeam(teamName, id) {
@@ -225,7 +230,8 @@ export default {
             console.log(response);
           })
           .catch(e => {
-            console.log(e.message);
+            console.log(e.response);
+            this.requestFailure = e.response.statusText;
           });
       }
     }

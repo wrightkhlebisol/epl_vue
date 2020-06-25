@@ -14,6 +14,8 @@
         </div>
       </div>
     </header>
+    <!-- <p class="text-red-600">{{requestFailure}}</p> -->
+    <p class="text-green-600">{{requestSuccess}}</p>
     <router-view v-if="loggedIn" />
     <h1
       v-else
@@ -26,6 +28,7 @@
     >
       <div class="w-full max-w-xs m-auto">
         <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10" @submit="login">
+          <p class="text-red-600">{{requestFailure}}</p>
           <p class="text-green-600">{{requestSuccess}}</p>
           <span
             class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
@@ -78,6 +81,7 @@
     >
       <div class="w-full max-w-xs m-auto">
         <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10" @submit="login">
+          <p class="text-red-600">{{requestFailure}}</p>
           <p class="text-green-600">{{requestSuccess}}</p>
           <span
             class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
@@ -169,7 +173,8 @@ export default {
       password_confirmation: "",
       //   url: "http://localhost:8000/api",
       url: "https://eplapi.herokuapp.com/api",
-      requestSuccess: ""
+      requestSuccess: "",
+      requestFailure: ""
     };
   },
   methods: {
@@ -201,7 +206,10 @@ export default {
         .then(fixture => {
           this.allFixtures = fixture.data;
         })
-        .catch();
+        .catch(e => {
+          console.log(e.response);
+          this.requestFailure = e.response.statusText;
+        });
     },
     login() {
       axios
@@ -217,7 +225,10 @@ export default {
           if (this.$route.path !== "/") this.$router.push("/");
           this.getAllFixtures();
         })
-        .catch(e => console.log(e));
+        .catch(e => {
+          console.log(e.response);
+          this.requestFailure = e.response.statusText;
+        });
     },
     register() {
       axios
@@ -233,7 +244,10 @@ export default {
           this.regModalToggle();
           this.loginModalToggle();
         })
-        .catch(e => console.log(e));
+        .catch(e => {
+          console.log(e.response);
+          this.requestFailure = e.response.statusText;
+        });
     }
   },
   mounted() {
