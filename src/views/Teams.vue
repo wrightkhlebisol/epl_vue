@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-md px-3 py-8">
-    <p class="text-red-600">{{requestFailure}}</p>
-    <p class="text-green-600">{{requestSuccess}}</p>
+    <p class="text-red-600">{{ requestFailure }}</p>
+    <p class="text-green-600">{{ requestSuccess }}</p>
     <h2 class="text-2xl py-4 font-bold">All Teams</h2>
     <div
       v-for="team in allTeams"
@@ -19,14 +19,17 @@
         </div>-->
       </div>
       <div class="font-bold">
-        <span @click="showUpdateModal(team.id)">🖋</span> |
+        <span @click="showUpdateModal(team.id)">🖋</span>
+        |
         <span @click="deleteTeam(team.team_name, team.id)">🚮</span>
       </div>
     </div>
     <div
       @click="showModal"
       class="sticky float-right z-auto bg-teal-500 font-extrabold text-white inline bottom-0 p-6 rounded-full h-16 w-16 m-5 cursor-pointer shadow-lg"
-    >+</div>
+    >
+      +
+    </div>
 
     <!-- CREATE TEAMS MODAL -->
     <div
@@ -34,15 +37,25 @@
       v-show="createTeamModalState"
     >
       <div class="w-full max-w-xs m-auto">
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10" @submit="createTeam">
-          <p class="text-green-600">{{requestSuccess}}</p>
+        <form
+          class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10"
+          @submit="createTeam"
+        >
+          <p class="text-green-600">{{ requestSuccess }}</p>
           <span
             class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
             @click="createTeamModalToggle"
-          >x</span>
+          >
+            x
+          </span>
           <h1 class="font-bold text-2xl mb-10">Create New Team</h1>
           <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="teamname">Team Name</label>
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="teamname"
+            >
+              Team Name
+            </label>
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="teamname"
@@ -57,7 +70,9 @@
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
               @click="createTeam"
-            >Create</button>
+            >
+              Create
+            </button>
           </div>
         </form>
       </div>
@@ -75,17 +90,21 @@
           class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10"
           @submit="updateTeam(team_id)"
         >
-          <p class="text-green-600">{{requestSuccess}}</p>
+          <p class="text-green-600">{{ requestSuccess }}</p>
           <span
             class="bg-white shadow-md font-bold float-right rounded-full p-2 cursor-pointer h-8 w-8"
             @click="updateTeamModalToggle"
-          >x</span>
+          >
+            x
+          </span>
           <h1 class="font-bold text-2xl mb-10">Update Team {{ team_name }}</h1>
           <div class="mb-4">
             <label
               class="block text-gray-700 text-sm font-bold mb-2"
               for="update_teamname"
-            >Team Name</label>
+            >
+              Team Name
+            </label>
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="update_teamname"
@@ -100,7 +119,9 @@
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
               @click="updateTeam(team_id)"
-            >Update</button>
+            >
+              Update
+            </button>
           </div>
         </form>
       </div>
@@ -111,52 +132,52 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 
 export default {
   data() {
     return {
       allTeams: [],
-      team_name: "",
+      team_name: '',
       team_id: 0,
-      bearer: localStorage.getItem("bearer"),
+      bearer: localStorage.getItem('bearer'),
       createTeamModalState: false,
       updateTeamModalState: false,
-      //   url: "http://localhost:8000/api",
+      // url: 'http://localhost:8000/api',
       url: "https://eplapi.herokuapp.com/api",
-      requestSuccess: "",
-      requestFailure: ""
-    };
+      requestSuccess: '',
+      requestFailure: '',
+    }
   },
   methods: {
     createTeamModalToggle() {
-      this.createTeamModalState = !this.createTeamModalState;
+      this.createTeamModalState = !this.createTeamModalState
     },
     showModal() {
-      this.createTeamModalToggle();
+      this.createTeamModalToggle()
     },
     updateTeamModalToggle() {
-      this.updateTeamModalState = !this.updateTeamModalState;
+      this.updateTeamModalState = !this.updateTeamModalState
     },
     showUpdateModal(teamId) {
-      this.team_id = teamId;
-      this.getTeamById(teamId);
-      this.updateTeamModalToggle();
+      this.team_id = teamId
+      this.getTeamById(teamId)
+      this.updateTeamModalToggle()
     },
     getTeamById(id) {
       axios
         .get(`${this.url}/teams/${id}`, {
           headers: {
-            Authorization: this.bearer
-          }
+            Authorization: this.bearer,
+          },
         })
-        .then(team => {
-          this.team_name = team.data.team_name;
+        .then((team) => {
+          this.team_name = team.data.team_name
         })
-        .catch(e => {
-          console.log(e.response);
-          this.requestFailure = e.response.statusText;
-        });
+        .catch((e) => {
+          console.log(e.response)
+          this.requestFailure = e.response.statusText
+        })
     },
     createTeam() {
       axios
@@ -165,36 +186,36 @@ export default {
           { team_name: this.team_name },
           {
             headers: {
-              Authorization: this.bearer
-            }
-          }
+              Authorization: this.bearer,
+            },
+          },
         )
-        .then(response => {
-          this.team_name = "";
-          this.createTeamModalToggle();
-          this.getAllTeams();
-          this.requestSuccess = response.data.message;
-          console.log(response);
+        .then((response) => {
+          this.team_name = ''
+          this.createTeamModalToggle()
+          this.getAllTeams()
+          this.requestSuccess = response.data.message
+          console.log(response)
         })
-        .catch(e => {
-          console.log(e.response);
-          this.requestFailure = e.response.statusText;
-        });
+        .catch((e) => {
+          console.log(e.response)
+          this.requestFailure = e.response.statusText
+        })
     },
     getAllTeams() {
       axios
         .get(`${this.url}/teams`, {
           headers: {
-            Authorization: this.bearer
-          }
+            Authorization: this.bearer,
+          },
         })
-        .then(team => {
-          this.allTeams = team.data;
+        .then((team) => {
+          this.allTeams = team.data
         })
-        .catch(e => {
-          console.log(e.response);
-          this.requestFailure = e.response.statusText;
-        });
+        .catch((e) => {
+          console.log(e.response)
+          this.requestFailure = e.response.statusText
+        })
     },
     updateTeam(id) {
       axios
@@ -203,41 +224,41 @@ export default {
           { team_name: this.team_name },
           {
             headers: {
-              Authorization: this.bearer
-            }
-          }
+              Authorization: this.bearer,
+            },
+          },
         )
-        .then(response => {
-          this.getAllTeams();
-          console.log(response);
+        .then((response) => {
+          this.getAllTeams()
+          console.log(response)
         })
-        .catch(e => {
-          console.log(e.response);
-          this.requestFailure = e.response.statusText;
-        });
+        .catch((e) => {
+          console.log(e.response)
+          this.requestFailure = e.response.statusText
+        })
     },
     deleteTeam(teamName, id) {
       if (confirm(`Are you sure you want to delete ${teamName}`)) {
         axios
           .delete(`${this.url}/teams/${id}`, {
             headers: {
-              Authorization: this.bearer
-            }
+              Authorization: this.bearer,
+            },
           })
-          .then(response => {
-            this.getAllTeams();
-            this.requestSuccess = response.data.message;
-            console.log(response);
+          .then((response) => {
+            this.getAllTeams()
+            this.requestSuccess = response.data.message
+            console.log(response)
           })
-          .catch(e => {
-            console.log(e.response);
-            this.requestFailure = e.response.statusText;
-          });
+          .catch((e) => {
+            console.log(e.response)
+            this.requestFailure = e.response.statusText
+          })
       }
-    }
+    },
   },
   mounted() {
-    this.getAllTeams();
-  }
-};
+    this.getAllTeams()
+  },
+}
 </script>
